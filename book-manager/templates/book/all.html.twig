@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les livres (Admin){% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Tous les livres <span class="badge bg-danger">Admin</span></h1>
+
+    <!-- Filtres -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Rechercher</label>
+                    <input type="text" name="search" class="form-control"
+                           placeholder="Titre ou auteur..." value="{{ search }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Genre</label>
+                    <select name="genre" class="form-select">
+                        <option value="">Tous les genres</option>
+                        {% for key, label in genres %}
+                            <option value="{{ key }}" {% if current_genre == key %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="bi bi-search"></i> Filtrer
+                    </button>
+                    <a href="{{ path('book_all') }}" class="btn btn-secondary">Réinitialiser</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if books is empty %}
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Aucun livre trouvé.
+        </div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>Couverture</th>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Genre</th>
+                    <th>Propriétaire</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>
+                            {% if book.coverImage %}
+                                <img src="{{ asset('uploads/covers/' ~ book.coverImage) }}"
+                                     alt="{{ book.title }}" style="width: 50px; height: 70px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-secondary text-white d-flex align-items-center justify-content-center"
+                                     style="width: 50px; height: 70px;">
+                                    <i class="bi bi-book"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td><span class="badge bg-info">{{ book.genre }}</span></td>
+                        <td>{{ book.user.email }}</td>
+                        <td>{{ book.createdAt|date('d/m/Y') }}</td>
+                        <td>
+                            <a href="{{ path('book_show', {slug: book.slug}) }}"
+                               class="btn btn-sm btn-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="{{ path('book_edit', {slug: book.slug}) }}"
+                               class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

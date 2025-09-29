@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <main>
+        <!-- Titre de la page -->
+        <div class="p-3 mx-auto text-center">
+            <h1 class="display-4">Actunews</h1>
+        </div>
+
+        <!-- Contenu de la page -->
+        <div class="py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    {% for post in posts %}
+                        {#
+                        Donc ici, pour chaque article retourné par la BDD
+                        Nous allons inclure une card.
+                        Chaque card permettant d'afficher un article.
+                        Ex. {{ dump(post) }}
+                        #}
+                        {% include 'partials/_card.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

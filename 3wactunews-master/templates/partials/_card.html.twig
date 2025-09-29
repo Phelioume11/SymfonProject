@@ -1,0 +1,23 @@
+<div class="col-md-4 col-sm-6">
+    <div class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="card">
+                    <img src="{{ post.image }}"
+                         class="card-img-top mt-2"
+                         alt="{{ post.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <small class="text-muted">
+                            Rédigé par : {{ post.user.firstname }} -
+                            le {{ post.createdAt | date('d/m/Y') }}
+                        </small>
+                        <a href="#" class="btn mt-4 w-100 btn-outline-dark">
+                            Lire la suite
+                        </a>
+                    </div>
+                </div>
+            </div> <!-- /.row -->
+        </div> <!-- /.container -->
+    </div> <!-- /.bg-light -->
+</div> <!-- /.col -->

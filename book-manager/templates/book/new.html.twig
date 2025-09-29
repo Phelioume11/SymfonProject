@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau livre{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="bi bi-plus-circle"></i> Ajouter un nouveau livre</h3>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(form.title) }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(form.author) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(form.genre) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(form.description) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(form.coverImageFile) }}
+                        <small class="form-text text-muted">
+                            Formats acceptés : JPG, PNG (max 2Mo)
+                        </small>
+                        <div id="imagePreview" class="mt-2"></div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ path('book_index') }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Annuler
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Enregistrer
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+            const preview = document.getElementById('imagePreview');
+            const file = e.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = '<img src="' + e.target.result + '" class="img-thumbnail" style="max-width: 300px;">';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '';
+            }
+        });
+    </script>
+{% endblock %}
